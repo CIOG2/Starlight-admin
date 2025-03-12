@@ -43,7 +43,7 @@ collections:
       - { label: "Cuerpo", name: "body", widget: "markdown" }
 
   - name: "fundamentos"
-    label: "undamentos"
+    label: "Fundamentos"
     folder: "src/content/docs/fundamentos"
     create: true
     slug: "{{slug}}"
