@@ -7,7 +7,7 @@ public_folder: "../../assets"
 
 collections:
   - name: "posts"
-    label: "Publicaciones"
+    label: "Inicio"
     folder: "src/content/docs"
     create: true
     slug: "{{slug}}"
@@ -15,11 +15,42 @@ collections:
     extension: "mdx"
     fields:
       - { label: "Título", name: "title", widget: "string" }
-      # - { label: "Fecha de publicación", name: "pubDate", widget: "datetime" }
       - { label: "Introducción", name: "intro", widget: "string" }
-      # - { label: "Etiqueta", name: "tag", widget: "string" }
-      # - { label: "Autor", name: "author", widget: "string", default: "ciog" }
-      # - { label: "Imagen principal", name: "image", widget: "image" }
-      # - { label: "Palabras clave (SEO)", name: "keywords", widget: "string", default: ["Poesía"] }
-      # - { label: "Autor SEO", name: "authorSEO", widget: "string", default: ["ciog"] }
       - { label: "Cuerpo", name: "body", widget: "markdown" }
+  
+  - name: "Logotipos"
+    label: "Logotipos"
+    folder: "src/content/docs/logotipos"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "mdx"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Contenido", name: "body", widget: "markdown" }
+      - { label: "Cuerpo", name: "body", widget: "markdown" }
+
+  - name: "componentes"
+    label: "Componentes"
+    folder: "src/content/docs/componentes"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "mdx"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Contenido", name: "body", widget: "markdown" }
+      - { label: "Cuerpo", name: "body", widget: "markdown" }
+
+  - name: "fundamentos"
+    label: "Fundamentos"
+    folder: "src/content/docs/fundamentos"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "mdx"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Contenido", name: "body", widget: "markdown" }
+      - { label: "Cuerpo", name: "body", widget: "markdown" }
+    

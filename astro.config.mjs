@@ -12,16 +12,11 @@ export default defineConfig({
       sidebar: [
         {
           label: 'Todo comienza aqui',
-          items: [
-            { label: 'Introducción', link: '/fundamentos/introduccion' },
-            { label: 'Conoce nuestras marcas', link: '/fundamentos/marcas' },
-          ],
+          autogenerate: { directory: 'fundamentos' },
         },
         {
           label: 'Componentes',
-          items: [
-            { label: 'Modal', link: '/componentes/modal' },
-          ],
+          autogenerate: { directory: 'componentes' },
         },
         {
           label: 'Logotipos',
