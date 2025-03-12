@@ -1,0 +1,25 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "src/assets"
+public_folder: "../../assets"
+
+collections:
+  - name: "posts"
+    label: "Publicaciones"
+    folder: "src/content/docs"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "mdx"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      # - { label: "Fecha de publicación", name: "pubDate", widget: "datetime" }
+      - { label: "Introducción", name: "intro", widget: "string" }
+      # - { label: "Etiqueta", name: "tag", widget: "string" }
+      # - { label: "Autor", name: "author", widget: "string", default: "ciog" }
+      # - { label: "Imagen principal", name: "image", widget: "image" }
+      # - { label: "Palabras clave (SEO)", name: "keywords", widget: "string", default: ["Poesía"] }
+      # - { label: "Autor SEO", name: "authorSEO", widget: "string", default: ["ciog"] }
+      - { label: "Cuerpo", name: "body", widget: "markdown" }

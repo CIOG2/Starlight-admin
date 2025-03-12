@@ -1,0 +1,249 @@
+---
+title: "Modales"
+description: "Destiny | MultiBrand Design System de PriceTravel Holding"
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+import { Card } from '@astrojs/starlight/components';
+import { Code } from '@astrojs/starlight/components';
+
+export const exampleCode = `console.log('¡Esto podría provenir de un archivo o CMS!');`;
+export const fileName = '';
+
+## ¿Que es un modal?
+Un modal es una ventana emergente o cuadro de diálogo que aparece sobre el contenido principal de una página web o aplicación, generalmente para captar la atención del usuario y solicitar una acción o mostrar información importante. Al aparecer, el modal suele oscurecer el fondo para centrar la atención en él, lo que impide interactuar con el resto de la página hasta que se cierre.
+
+## Características de los Modales
+- **Superposición:** Aparece sobre el contenido existente.
+- **Enfoque:** El usuario no puede interactuar con el resto de la página hasta que cierre el modal.
+- **Cierre:** Se cierra mediante un botón (como una 'X' en la esquina), al hacer clic fuera del modal o presionando la tecla 'Escape'.
+- **Uso común:** Confirmaciones (como eliminar un archivo), formularios, alertas, imágenes ampliadas o contenido adicional sin cambiar de página.
+
+## Interacciones
+Las interacciones en los modales son las acciones que los usuarios realizan para abrir, cerrar o navegar dentro del modal. Incluyen clics en botones, teclas del teclado (como Escape o Enter), gestos táctiles en móviles y scroll interno para contenido largo. Estas acciones mejoran la experiencia de usuario y garantizan la accesibilidad en diferentes dispositivos y navegadores.
+
+### Tecla Escape (Esc)
+La forma más común y esperada de cerrar un modal. Se debe prevenir el evento en Linux para evitar conflictos con ventanas del sistema.
+
+<Code code={`
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('modalGC__section--entry-animation')) {
+        e.preventDefault();  // 🔥 Evita conflictos en Linux
+        closeModal();
+    }
+});
+`} lang="js" title="escape.js"/>
+
+### Tecla Enter (En botones de cierre)
+Si el botón de cerrar tiene el foco, Enter debe cerrarlo. Asegúrate de que el botón tenga `tabindex="0"`.
+
+<Code code={`
+<button class="modal-close" tabindex="0">Cerrar</button>
+`} lang="html" title="boton-cierre.html"/>
+
+### Tecla Space (En botones de cierre)
+Similar a Enter, pero en Firefox en Linux puede provocar desplazamiento, solucionalo con `preventDefault()`.
+
+<Code code={`
+document.querySelector('.modal-close').addEventListener('keydown', (e) => {
+    if (e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();  // 🔥 Evita el scroll en Firefox
+        closeModal();
+    }
+});
+`} lang="js" title="space.js"/>
+
+### Combinaciones de Teclas (Cmd + W / Ctrl + W)
+Deben cerrar el modal en lugar de la pestaña.
+
+<Code code={`
+document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'w') {
+        e.preventDefault();
+        closeModal();  // 🔥 Cierra el modal en lugar de la pestaña
+    }
+});
+`} lang="js" title="combinaciones.js"/>
+
+---
+
+### Toque en el Botón de Cerrar (X)
+Asegúrate de que el área táctil sea suficientemente grande.
+
+<Code code={`
+.modal-close {
+    width: 44px;  // 🔥 Área táctil mínima
+    height: 44px;
+}
+`} lang="css" title="tactil.css"/>
+
+### Toque Fuera del Modal (Overlay Tap)
+En Safari iOS, usa `touch-action: auto` para evitar problemas.
+
+<Code code={`
+.modal-overlay {
+    touch-action: auto;  // 🔥 Evita problemas en Safari iOS
+}
+`} lang="css" title="overlay.css"/>
+
+### Gestos Táctiles (Swipe)
+Deslizar hacia abajo para cerrar es ideal para Bottom Sheets.
+
+<Code code={`
+let touchStartY = 0;
+modal.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+});
+modal.addEventListener('touchend', (e) => {
+    const touchEndY = e.changedTouches[0].clientY;
+    if (touchEndY > touchStartY + 50) {  // 🔥 Deslizar hacia abajo para cerrar
+        closeModal();
+    }
+});
+`} lang="js" title="swipe.js"/>
+
+### Botón de Atrás en Android (Back Button)
+El botón de retroceso debe cerrar el modal en lugar de navegar fuera de la página.
+
+<Code code={`
+window.addEventListener('popstate', () => {
+    if (modal.classList.contains('modalGC__section--entry-animation')) {
+        closeModal();  // 🔥 Cierra el modal en Android
+    }
+});
+`} lang="js" title="backbutton.js"/>
+
+### Scroll en Modales con Teclas de Flecha
+Permite desplazar el contenido de un modal utilizando las teclas **ArrowUp** y **ArrowDown**, aplicando el scroll **solo al contenido interno** del modal.
+
+<Code code={`
+const modalContent = document.querySelector('.modal-content');
+
+// Asignar tabindex para permitir el foco y capturar el evento keydown
+modalContent.setAttribute('tabindex', '0');
+modalContent.focus();
+
+// Manejar el scroll con las teclas ArrowUp y ArrowDown
+modalContent.addEventListener('keydown', (e) => {
+    const scrollStep = 30;  // 🔥 Cantidad de píxeles por desplazamiento
+    const maxScroll = modalContent.scrollHeight - modalContent.clientHeight;
+    const currentScroll = modalContent.scrollTop;
+
+    // Desplazar hacia abajo con ArrowDown
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();  // 🔥 Previene el desplazamiento de toda la página
+        if (currentScroll < maxScroll) {
+            modalContent.scrollTop += scrollStep;
+        }
+    }
+
+    // Desplazar hacia arriba con ArrowUp
+    if (e.key === 'ArrowUp') {
+        e.preventDefault();  // 🔥 Previene el desplazamiento de toda la página
+        if (currentScroll > 0) {
+            modalContent.scrollTop -= scrollStep;
+        }
+    }
+});
+`} lang="js" title="scroll-modal.js"/>
+
+---
+
+### Estilo Requerido
+Para que el **scroll** funcione correctamente, asegúrate de aplicar estos estilos en el contenido del modal:
+
+<Code code={`
+.modal-content {
+    max-height: 80vh;  // 🔥 Limita la altura del modal
+    overflow-y: auto;  // 🔥 Permite el desplazamiento vertical
+}
+`} lang="css" title="scroll-modal.css"/>
+
+
+## Accesibilidad
+
+## Animaciones para Modales
+Aquí se presentan las animaciones CSS para lograr efectos de entrada y salida en un modal, utilizando transiciones suaves y responsivas. Estas animaciones mejoran la experiencia del usuario al hacer que el modal aparezca y desaparezca de manera más natural.
+
+<Code 
+    code={`
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes popUp {
+    from {
+        top: 100%;
+    }
+    to {
+        top: 0;
+    }
+}
+
+@keyframes popDown {
+    from {
+        top: 0;
+    }
+    to {
+        top: 100%;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+    `} 
+    lang="css" title="animacion.css"
+/>
+
+### Modo de uso
+Las animaciones se aplican mediante clases específicas en el modal para gestionar su entrada y salida de manera responsiva, diferenciando el comportamiento en dispositivos móviles y pantallas grandes.
+
+<Code 
+    code={`
+.modalGC__section--entry-animation{
+    animation: popUpModal 0.3s ease;
+    animation-fill-mode: forwards;
+
+    @media (min-width: 768px){
+        animation: fadeInModal 0.3s ease;
+        animation-fill-mode: forwards;
+    }
+}
+
+.modalGC__section--exit-animation{
+    animation: popDownModal 0.3s ease;
+    animation-fill-mode: forwards;
+
+    @media (min-width: 768px){
+        animation: fadeOutModal 0.3s ease;
+        animation-fill-mode: forwards;
+    }
+}
+    `} 
+    lang="css" title="estilos.css"
+/>
+
+### Explicación
+
+- **popUpModal:** Desliza el modal hacia arriba con un efecto de aparición suave (ideal para pantallas móviles).
+- **popDownModal:** Desliza el modal hacia abajo, desapareciendo de forma natural.
+- **fadeInModal y fadeOutModal:** Se usan en pantallas grandes para lograr transiciones de opacidad más sutiles y elegantes.
+- **animation-fill-mode:** forwards; Mantiene el estado final de la animación después de completar la transición.
+
+### Consideraciones Importantes
+Al cerrar el modal (ya sea mediante el botón de cerrar, clic fuera del modal, tecla Escape, o swipe en dispositivos móviles), se debe:
+1. Quitar la clase de animación de entrada (`modalGC__section--entry-animation`).
+2. Aplicar la clase de animación de salida (`modalGC__section--exit-animation`).
+3. Utilizar un `setTimeout` de 300ms para permitir que la animación de salida se complete antes de remover el modal del DOM.
+4. Asegurarse de limpiar el DOM para evitar residuos de modales inactivos.
