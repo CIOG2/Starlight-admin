@@ -27,7 +27,7 @@ collections:
     extension: "mdx"
     fields:
       - { label: "Título", name: "title", widget: "string" }
-      - { label: "Contenido", name: "body", widget: "markdown" }
+      - { label: "Introducción", name: "intro", widget: "string" }
       - { label: "Cuerpo", name: "body", widget: "markdown" }
 
   - name: "componentes"
@@ -39,11 +39,11 @@ collections:
     extension: "mdx"
     fields:
       - { label: "Título", name: "title", widget: "string" }
-      - { label: "Contenido", name: "body", widget: "markdown" }
+      - { label: "Introducción", name: "intro", widget: "string" }
       - { label: "Cuerpo", name: "body", widget: "markdown" }
 
   - name: "fundamentos"
-    label: "Fundamentos"
+    label: "undamentos"
     folder: "src/content/docs/fundamentos"
     create: true
     slug: "{{slug}}"
@@ -51,6 +51,6 @@ collections:
     extension: "mdx"
     fields:
       - { label: "Título", name: "title", widget: "string" }
-      - { label: "Contenido", name: "body", widget: "markdown" }
+      - { label: "Introducción", name: "intro", widget: "string" }
       - { label: "Cuerpo", name: "body", widget: "markdown" }
     
