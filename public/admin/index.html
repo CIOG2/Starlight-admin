@@ -5,21 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Panel de Administración</title>
 
-  <!-- Scripts externos -->
+  <!-- Carga primero Identity -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <!-- Luego CMS -->
   <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 </head>
 <body>
-  <!-- Contenedor obligatorio para Netlify CMS -->
+  <!-- ESTE ELEMENTO ES OBLIGATORIO -->
   <div id="nc-root"></div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       if (typeof netlifyIdentity !== "undefined") {
         netlifyIdentity.on("init", user => {
-          if (!user) {
-            netlifyIdentity.open();
-          }
+          if (!user) netlifyIdentity.open();
         });
 
         netlifyIdentity.on("login", user => {
