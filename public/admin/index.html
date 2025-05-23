@@ -1,15 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Panel de Administración</title>
-  <script defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script defer src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+
+  <!-- Primero se carga Netlify Identity -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <!-- Luego Netlify CMS -->
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 </head>
 <body>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      // Inicializar Netlify Identity
+      if (typeof netlifyIdentity !== "undefined") {
+        netlifyIdentity.on("init", user => {
+          if (!user) {
+            // Abre el modal automáticamente si no hay sesión
+            netlifyIdentity.open();
+          } else {
+            console.log("Usuario ya logueado:", user);
+          }
+        });
+
+        netlifyIdentity.on("login", user => {
+          console.log("Login exitoso:", user);
+          netlifyIdentity.close(); // Cierra el modal
+        });
+
+        netlifyIdentity.on("logout", () => {
+          console.log("Sesión cerrada.");
+        });
+
+        netlifyIdentity.on("error", err => {
+          console.error("Error en Netlify Identity:", err);
+        });
+
+        netlifyIdentity.init(); // ¡Importante!
+      } else {
+        console.error("Netlify Identity no se ha cargado correctamente.");
+      }
+
+      // Inicializar Netlify CMS
       if (typeof CMS !== "undefined") {
         console.log("Netlify CMS cargado correctamente.");
         CMS.init();
