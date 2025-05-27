@@ -54,12 +54,10 @@
                       "not": {}
                     }
                   ]
-                },
-                "default": {}
+                }
               },
               "content": {
-                "type": "string",
-                "default": ""
+                "type": "string"
               }
             },
             "required": [
@@ -289,6 +287,15 @@
                           "confluence",
                           "jira",
                           "storybook",
+                          "vscode",
+                          "jetbrains",
+                          "zed",
+                          "vim",
+                          "figma",
+                          "sketch",
+                          "npm",
+                          "sourcehut",
+                          "substack",
                           "seti:folder",
                           "seti:bsl",
                           "seti:mdo",

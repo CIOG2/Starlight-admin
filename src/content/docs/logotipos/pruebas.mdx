@@ -1,5 +1,44 @@
 ---
-title: Pruebas
-intro: descricion
+title: Ruta de Flujo de Compra en Línea
+intro: Flujo práctico de un proceso de compra en e-commerce usando React Flow con rutas no lineales y decisiones.
 ---
-Texto de ejemplo
+
+import { FlowComponent } from '../../../components/MyFlow';
+
+export const nodes = [
+  { id: '1', type: 'input',   data: { label: 'Inicio' },               position: { x: 100,  y: 50  } },
+  { id: '2', type: 'default', data: { label: 'Explorar Productos' },    position: { x: 100,  y: 200 } },
+  { id: '3', type: 'default', data: { label: 'Buscar Productos' },       position: { x: 300,  y: 200 } },
+  { id: '4', type: 'default', data: { label: 'Ver Detalles' },          position: { x: 200,  y: 350 } },
+  { id: '5', type: 'default', data: { label: 'Añadir al Carrito' },     position: { x: 200,  y: 500 } },
+  { id: '6', type: 'default', data: { label: 'Continuar Comprando' },   position: { x: 50,   y: 650 } },
+  { id: '7', type: 'default', data: { label: 'Ir al Checkout' },        position: { x: 350,  y: 650 } },
+  { id: '8', type: 'default', data: { label: 'Checkout - Envío' },      position: { x: 350,  y: 800 } },
+  { id: '9', type: 'default', data: { label: 'Checkout - Pago' },       position: { x: 550,  y: 800 } },
+  { id: '10', type: 'default', data: { label: 'Validación de Pago' },   position: { x: 550,  y: 950 } },
+  { id: '11', type: 'default', data: { label: 'Promociones y Cupones' },position: { x: 600,  y: 350 } },
+  { id: '12', type: 'output',  data: { label: 'Confirmación' },          position: { x: 350,  y: 1100 } },
+];
+
+export const edges = [
+  { id: 'e1-2', source: '1',  target: '2',  animated: true,  label: 'Start → Explorar' },
+  { id: 'e1-3', source: '1',  target: '3',  label: 'Start → Buscar' },
+  { id: 'e2-4', source: '2',  target: '4',  label: 'Explorar → Detalles' },
+  { id: 'e3-4', source: '3',  target: '4',  style: { stroke: '#85d7ff' }, label: 'Buscar → Detalles' },
+  { id: 'e4-5', source: '4',  target: '5',  animated: true,  label: 'Detalles → Carrito' },
+  { id: 'e5-6', source: '5',  target: '6',  label: 'Carrito → Seguir Comprando' },
+  { id: 'e5-7', source: '5',  target: '7',  label: 'Carrito → Checkout' },
+  { id: 'e6-2', source: '6',  target: '2',  arrowHeadType: 'arrowclosed', label: 'Loop Explorar' },
+  { id: 'e7-8', source: '7',  target: '8',  label: 'Checkout > Envío' },
+  { id: 'e8-9', source: '8',  target: '9',  style: { strokeWidth: 2 }, label: 'Envío → Pago' },
+  { id: 'e9-10',source: '9',  target: '10', animated: true,  label: 'Pago → Validar' },
+  { id: 'e5-11',source: '5',  target: '11', label: 'Ofertas?' },
+  { id: 'e11-5',source: '11', target: '5',  style: { stroke: '#f6ab6c' }, label: 'Aplicar Cupón' },
+  { id: 'e10-12',source: '10', target: '12', arrowHeadType: 'arrowclosed', label: 'Validado → Confirmación' },
+];
+
+<FlowComponent
+  client:load
+  initialNodes={nodes}
+  initialEdges={edges}
+/>
