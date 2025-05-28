@@ -6,13 +6,13 @@ import ReactFlow, {
   Background,
   useNodesState,
   useEdgesState,
-} from 'react-flow-renderer';
-
+} from 'reactflow';
 import type {
   Connection,
   Edge,
   Node,
-} from 'react-flow-renderer';
+} from 'reactflow';
+import 'reactflow/dist/style.css';
 
 export interface FlowProps {
   /** Lista inicial de nodos */
@@ -28,10 +28,12 @@ export const FlowComponent: React.FC<FlowProps> = ({
   initialEdges,
   style,
 }) => {
+  // Hooks para manejar estado de nodos y aristas
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  const handleConnect = useCallback((connection: Connection) => {
+  // Callback al conectar dos nodos
+  const onConnect = useCallback((connection: Connection) => {
     setEdges((eds) => addEdge(connection, eds));
   }, [setEdges]);
 
@@ -42,13 +44,13 @@ export const FlowComponent: React.FC<FlowProps> = ({
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        onConnect={handleConnect}
+        onConnect={onConnect}
         fitView
         nodesDraggable={false}
       >
-        {/* <MiniMap /> */}
+        <MiniMap/>
         <Controls />
-        <Background />
+        <Background color="#aaa" gap={16} />
       </ReactFlow>
     </div>
   );
